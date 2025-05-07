@@ -35,9 +35,9 @@ if st.button("Feature Engineering Başlat") and not st.session_state.feature_eng
 # 2. Dataset processor and merger
 if st.session_state.feature_engineered:
     st.subheader("2. Dataset Processor and Merger")
-    features_path = "/workspaces/blank-app/feature_data" 
-    demog_data_path = "/workspaces/blank-app/data/advanced_user_profiles_with_uuid.csv"
-    output_path = "/workspaces/blank-app/final_datasets/final_data.csv" 
+    features_path = "./feature_data" 
+    demog_data_path = "data/advanced_user_profiles_with_uuid.csv"
+    output_path = "final_datasets/final_data.csv" 
 
     st.text(f"Features Path: {features_path}")
     st.text(f"Categorical Data Path: {demog_data_path}")
@@ -57,7 +57,7 @@ if st.session_state.data_processed:
     if st.button("Model Eğitimi Başlat") and not st.session_state.model_trained:
         st.text("Model Eğitimi Başlatılıyor...")
         clustering = UserBehaviorClustering(
-            df_path="/workspaces/blank-app/final_datasets/final_data.csv",
+            df_path="final_datasets/final_data.csv",
             n_clusters=3
         )
 
@@ -75,14 +75,14 @@ if st.session_state.data_processed:
         user_segment_df = df_with_clusters[["user_id", "behavior_segment"]]
 
         # Kayıt işlemi
-        output_path = "/workspaces/blank-app/result_show/user_behavior_segments.csv"
+        output_path = "result_show/user_behavior_segments.csv"
         user_segment_df.to_csv(output_path, index=False)
 
         st.text(f"Kullanıcı segmentleri '{output_path}' dosyasına kaydedildi.")
 
         # Resim ve .txt dosyalarını görüntüleme seçeneği
         st.subheader("Sonuçları Görüntüle")
-        result_show_dir = "/workspaces/blank-app/result_show"
+        result_show_dir = "result_show"
 
         # Klasördeki dosyaları listele
         result_files = os.listdir(result_show_dir)
@@ -109,7 +109,7 @@ if st.session_state.model_trained:
         st.subheader("Model Sonuçları")
 
         # CSV dosyasını yükle
-        results_path = "/workspaces/blank-app/result_show/user_behavior_segments.csv"
+        results_path = "result_show/user_behavior_segments.csv"
 
         if os.path.exists(results_path):
             results_df = pd.read_csv(results_path)
