@@ -18,8 +18,8 @@ if 'model_trained' not in st.session_state:
 
 # 1. Feature dataset creation
 st.subheader("1. Feature Dataset Creation")
-base_data_path = "/workspaces/blank-app/data/advanced_user_events_with_uuid.csv"
-feature_data_path = "/workspaces/blank-app/feature_data"
+base_data_path = "data/advanced_user_events_with_uuid.csv"
+feature_data_path = "./feature_data"
 
 st.text(f"Base Data Path: {base_data_path}")
 st.text(f"Feature Data Path: {feature_data_path}")
