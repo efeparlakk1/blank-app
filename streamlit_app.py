@@ -96,9 +96,4 @@ if st.session_state.data_processed:
             img_path = os.path.join(result_show_dir, image)
             st.image(img_path, caption=image)
 
-st.subheader("4. Uygulamayı Yeniden Başlatma")
-if st.button("🔁 Yeniden Başlat"):
-    st.session_state.clear()
-    st.experimental_rerun()
-
 
