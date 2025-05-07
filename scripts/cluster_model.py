@@ -72,7 +72,16 @@ class UserBehaviorClustering:
         plt.title("Kullanıcı Kümeleri (PCA)")
         plt.xlabel("PCA1")
         plt.ylabel("PCA2")
-        plt.show()
+
+        # "result_show" klasörünü oluştur (varsa kontrol et)
+        output_dir = "result_show"
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Görseli kaydet
+        cluster_image_path = os.path.join(output_dir, "user_clusters.png")
+        plt.savefig(cluster_image_path)
+        print(f"\nCluster görsellemesi '{cluster_image_path}' dosyasına kaydedildi.")
+        plt.close()
 
     def analyze_clusters(self):
         for i in range(self.n_clusters):
@@ -136,4 +145,3 @@ if __name__ == "__main__":
     output_path = "/home/eplinux/ikas_case_study/result_show/user_behavior_segments.csv"
     user_segment_df.to_csv(output_path, index=False)
     print(f"\nKullanıcı segmentleri '{output_path}' dosyasına kaydedildi.")
-
