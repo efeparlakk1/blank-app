@@ -80,16 +80,17 @@ if st.session_state.data_processed:
 
         st.text(f"Kullanıcı segmentleri '{output_path}' dosyasına kaydedildi.")
 
-        # Resim ve .txt dosyalarını görüntüleme seçeneği
+        # Sonuçları doğrudan göster
+        st.subheader("Model Sonuçları")
+        st.dataframe(user_segment_df, height=300)
+
+        # Görsel ve .txt dosyalarını da göster
         st.subheader("Sonuçları Görüntüle")
         result_show_dir = "result_show"
-
-        # Klasördeki dosyaları listele
         result_files = os.listdir(result_show_dir)
         images = [file for file in result_files if file.endswith(('.png', '.jpg', '.jpeg'))]
         txt_files = [file for file in result_files if file.endswith('.txt')]
 
-        # Resim dosyalarını göster
         st.write("Resimler:")
         for image in images:
             img_path = os.path.join(result_show_dir, image)
