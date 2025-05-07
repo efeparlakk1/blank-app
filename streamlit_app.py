@@ -95,14 +95,6 @@ if st.session_state.data_processed:
             img_path = os.path.join(result_show_dir, image)
             st.image(img_path, caption=image)
 
-        # .txt dosyalarını göster
-        st.write("Metin Dosyaları:")
-        for txt_file in txt_files:
-            txt_path = os.path.join(result_show_dir, txt_file)
-            with open(txt_path, 'r') as file:
-                st.text(f"--- {txt_file} ---")
-                st.text(file.read())
-
 # 4. Model Results Görüntüleme
 if st.session_state.model_trained:
     if st.button("Model Results Göster"):
