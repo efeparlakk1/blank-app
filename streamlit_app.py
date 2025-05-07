@@ -15,8 +15,6 @@ if 'data_processed' not in st.session_state:
     st.session_state.data_processed = False
 if 'model_trained' not in st.session_state:
     st.session_state.model_trained = False
-if 'process_started' not in st.session_state:
-    st.session_state.process_started = False  # Yeni kontrol değişkeni
 
 # 1. Feature dataset creation
 st.subheader("1. Feature Dataset Creation")
@@ -32,15 +30,14 @@ if st.button("Feature Engineering Başlat") and not st.session_state.feature_eng
     feature_engineer = FeatureEngineer(base_data_path, feature_data_path)
     feature_engineer.run()
     st.session_state.feature_engineered = True
-    st.session_state.process_started = True  # Sürecin başlatıldığını işaretle
     st.text("Feature Engineering Tamamlandı!")
 
 # 2. Dataset processor and merger
-if st.session_state.feature_engineered and not st.session_state.data_processed:
+if st.session_state.feature_engineered:
     st.subheader("2. Dataset Processor and Merger")
-    features_path = "./feature_data"
+    features_path = "./feature_data" 
     demog_data_path = "data/advanced_user_profiles_with_uuid.csv"
-    output_path = "final_datasets/final_data.csv"
+    output_path = "final_datasets/final_data.csv" 
 
     st.text(f"Features Path: {features_path}")
     st.text(f"Categorical Data Path: {demog_data_path}")
@@ -55,9 +52,9 @@ if st.session_state.feature_engineered and not st.session_state.data_processed:
         st.text("Veri işleme tamamlandı!")
 
 # 3. Cluster model training ve kaydetme
-if st.session_state.data_processed and not st.session_state.model_trained:
+if st.session_state.data_processed:
     st.subheader("3. Cluster Model Training ve Kaydetme")
-    if st.button("Model Eğitimi Başlat"):
+    if st.button("Model Eğitimi Başlat") and not st.session_state.model_trained:
         st.text("Model Eğitimi Başlatılıyor...")
         clustering = UserBehaviorClustering(
             df_path="final_datasets/final_data.csv",
@@ -113,13 +110,3 @@ if st.session_state.model_trained:
             st.dataframe(results_df, height=300)  # Burada 300px yükseklik verildi, ihtiyaca göre değiştirebilirsiniz
         else:
             st.text("Sonuç dosyası bulunamadı.")
-
-# 5. Yeniden Eğit butonu
-if st.session_state.model_trained:
-    if st.button("Yeniden Eğit"):
-        # Her şeyi sıfırlayıp baştan başlat
-        st.session_state.feature_engineered = False
-        st.session_state.data_processed = False
-        st.session_state.model_trained = False
-        st.session_state.process_started = False  # Süreci başlatılmamış olarak işaretle
-        st.experimental_rerun()  # Sayfayı yeniden yükle
