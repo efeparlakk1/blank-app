@@ -96,9 +96,9 @@ if st.session_state.data_processed:
             img_path = os.path.join(result_show_dir, image)
             st.image(img_path, caption=image)
 
-# 4. Uygulamayı Yeniden Başlatma
 st.subheader("4. Uygulamayı Yeniden Başlatma")
 if st.button("🔁 Yeniden Başlat"):
     st.session_state.clear()
-    st.warning("Oturum sıfırlandı. Lütfen sayfayı yeniden yükleyin (Ctrl + R veya sayfayı yenileyin).")
+    st.experimental_rerun()
+
 
