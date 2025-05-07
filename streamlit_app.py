@@ -96,18 +96,9 @@ if st.session_state.data_processed:
             img_path = os.path.join(result_show_dir, image)
             st.image(img_path, caption=image)
 
-# 4. Model Results Görüntüleme
-if st.session_state.model_trained:
-    if st.button("Model Results Göster"):
-        st.subheader("Model Sonuçları")
+# 4. Uygulamayı Yeniden Başlatma
+st.subheader("4. Uygulamayı Yeniden Başlatma")
+if st.button("🔁 Yeniden Başlat"):
+    st.session_state.clear()
+    st.warning("Oturum sıfırlandı. Lütfen sayfayı yeniden yükleyin (Ctrl + R veya sayfayı yenileyin).")
 
-        # CSV dosyasını yükle
-        results_path = "result_show/user_behavior_segments.csv"
-
-        if os.path.exists(results_path):
-            results_df = pd.read_csv(results_path)
-
-            # Scrollable table olarak göster
-            st.dataframe(results_df, height=300)  # Burada 300px yükseklik verildi, ihtiyaca göre değiştirebilirsiniz
-        else:
-            st.text("Sonuç dosyası bulunamadı.")
