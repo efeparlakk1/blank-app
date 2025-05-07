@@ -12,3 +12,5 @@ joblib             # model kaydetme/yükleme için
 statsmodels        # istatistiksel modelleme ve korelasyonanalizi
 mlxtend            # model değerlendirme,segmentasyon araçları
 gensim
+nltk
+streamlit
