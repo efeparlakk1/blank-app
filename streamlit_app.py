@@ -31,13 +31,14 @@ if st.button("Feature Engineering Başlat") and not st.session_state.feature_eng
     feature_engineer.run()
     st.session_state.feature_engineered = True
     st.text("Feature Engineering Tamamlandı!")
+    st.experimental_rerun()  # Yeniden sayfayı başlat
 
 # 2. Dataset processor and merger
-if st.session_state.feature_engineered:
+if st.session_state.feature_engineered and not st.session_state.data_processed:
     st.subheader("2. Dataset Processor and Merger")
-    features_path = "./feature_data" 
+    features_path = "./feature_data"
     demog_data_path = "data/advanced_user_profiles_with_uuid.csv"
-    output_path = "final_datasets/final_data.csv" 
+    output_path = "final_datasets/final_data.csv"
 
     st.text(f"Features Path: {features_path}")
     st.text(f"Categorical Data Path: {demog_data_path}")
@@ -50,11 +51,12 @@ if st.session_state.feature_engineered:
         processor.run()
         st.session_state.data_processed = True
         st.text("Veri işleme tamamlandı!")
+        st.experimental_rerun()  # Yeniden sayfayı başlat
 
 # 3. Cluster model training ve kaydetme
-if st.session_state.data_processed:
+if st.session_state.data_processed and not st.session_state.model_trained:
     st.subheader("3. Cluster Model Training ve Kaydetme")
-    if st.button("Model Eğitimi Başlat") and not st.session_state.model_trained:
+    if st.button("Model Eğitimi Başlat"):
         st.text("Model Eğitimi Başlatılıyor...")
         clustering = UserBehaviorClustering(
             df_path="final_datasets/final_data.csv",
@@ -94,6 +96,7 @@ if st.session_state.data_processed:
         for image in images:
             img_path = os.path.join(result_show_dir, image)
             st.image(img_path, caption=image)
+        st.experimental_rerun()  # Yeniden sayfayı başlat
 
 # 4. Model Results Görüntüleme
 if st.session_state.model_trained:
@@ -108,5 +111,14 @@ if st.session_state.model_trained:
 
             # Scrollable table olarak göster
             st.dataframe(results_df, height=300)  # Burada 300px yükseklik verildi, ihtiyaca göre değiştirebilirsiniz
+
         else:
             st.text("Sonuç dosyası bulunamadı.")
+
+# Son olarak, tüm işlemler tamamlandıktan sonra 'Yeniden Eğit' butonunu göster
+if st.session_state.model_trained:
+    if st.button("Yeniden Eğit"):
+        st.session_state.feature_engineered = False
+        st.session_state.data_processed = False
+        st.session_state.model_trained = False
+        st.experimental_rerun()  # Sayfayı baştan başlat
