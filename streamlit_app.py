@@ -15,6 +15,8 @@ if 'data_processed' not in st.session_state:
     st.session_state.data_processed = False
 if 'model_trained' not in st.session_state:
     st.session_state.model_trained = False
+if 'process_started' not in st.session_state:
+    st.session_state.process_started = False  # Yeni kontrol değişkeni
 
 # 1. Feature dataset creation
 st.subheader("1. Feature Dataset Creation")
@@ -30,8 +32,8 @@ if st.button("Feature Engineering Başlat") and not st.session_state.feature_eng
     feature_engineer = FeatureEngineer(base_data_path, feature_data_path)
     feature_engineer.run()
     st.session_state.feature_engineered = True
+    st.session_state.process_started = True  # Sürecin başlatıldığını işaretle
     st.text("Feature Engineering Tamamlandı!")
-    st.experimental_rerun()  # Yeniden sayfayı başlat
 
 # 2. Dataset processor and merger
 if st.session_state.feature_engineered and not st.session_state.data_processed:
@@ -51,7 +53,6 @@ if st.session_state.feature_engineered and not st.session_state.data_processed:
         processor.run()
         st.session_state.data_processed = True
         st.text("Veri işleme tamamlandı!")
-        st.experimental_rerun()  # Yeniden sayfayı başlat
 
 # 3. Cluster model training ve kaydetme
 if st.session_state.data_processed and not st.session_state.model_trained:
@@ -96,7 +97,6 @@ if st.session_state.data_processed and not st.session_state.model_trained:
         for image in images:
             img_path = os.path.join(result_show_dir, image)
             st.image(img_path, caption=image)
-        st.experimental_rerun()  # Yeniden sayfayı başlat
 
 # 4. Model Results Görüntüleme
 if st.session_state.model_trained:
@@ -111,14 +111,15 @@ if st.session_state.model_trained:
 
             # Scrollable table olarak göster
             st.dataframe(results_df, height=300)  # Burada 300px yükseklik verildi, ihtiyaca göre değiştirebilirsiniz
-
         else:
             st.text("Sonuç dosyası bulunamadı.")
 
-# Son olarak, tüm işlemler tamamlandıktan sonra 'Yeniden Eğit' butonunu göster
+# 5. Yeniden Eğit butonu
 if st.session_state.model_trained:
     if st.button("Yeniden Eğit"):
+        # Her şeyi sıfırlayıp baştan başlat
         st.session_state.feature_engineered = False
         st.session_state.data_processed = False
         st.session_state.model_trained = False
-        st.experimental_rerun()  # Sayfayı baştan başlat
+        st.session_state.process_started = False  # Süreci başlatılmamış olarak işaretle
+        st.experimental_rerun()  # Sayfayı yeniden yükle
