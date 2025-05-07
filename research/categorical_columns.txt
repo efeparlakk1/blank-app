@@ -1,0 +1,7 @@
+user_id
+event_sequence
+segment_rf
+plan_type
+country
+device_type
+industry

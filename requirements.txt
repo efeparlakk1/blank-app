@@ -1,1 +1,14 @@
-streamlit
+pandas
+numpy
+matplotlib
+seaborn
+plotly
+scikit-learn
+xgboost
+lightgbm
+scipy
+imbalanced-learn  # dengesiz sınıflar için
+joblib             # model kaydetme/yükleme için
+statsmodels        # istatistiksel modelleme ve korelasyonanalizi
+mlxtend            # model değerlendirme,segmentasyon araçları
+gensim
